@@ -6,7 +6,7 @@ const SignUp = () => {
           Username:
           <input
             type='text'
-            name='username'
+            name='_id'
           />
         </label>
         <label>
