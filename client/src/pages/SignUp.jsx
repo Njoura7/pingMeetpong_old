@@ -1,34 +1,77 @@
+import React, { useState } from "react"
+import axios from "axios"
+
 const SignUp = () => {
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [error, setError] = useState("")
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match")
+      return
+    }
+
+    const userData = {
+      username,
+      password: confirmPassword,
+    }
+
+    try {
+      const response = await axios.post(
+        //waiting for the api/signup endpoint to be created
+        "http:/localhost:8080/api/signup",
+        JSON.stringify(userData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+
+      // Handle the response here, such as displaying a success message
+      console.log(response.data)
+    } catch (error) {
+      // Handle errors here
+      console.error(error)
+    }
+  }
+
   return (
-    <>
-      <form>
-        <label>
-          Username:
-          <input
-            type='text'
-            name='username'
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type='password'
-            name='password'
-          />
-        </label>
-        <label>
-          Confirm Password:
-          <input
-            type='password'
-            name='confirm-password'
-          />
-        </label>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Username:
         <input
-          type='submit'
-          value='Submit'
+          type='text'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
-      </form>
-    </>
+      </label>
+      <br />
+      <label>
+        Password:
+        <input
+          type='password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        Confirm Password:
+        <input
+          type='password'
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </label>
+      <br />
+      <button type='submit'>Sign Up</button>
+      {error && <p>{error}</p>}
+    </form>
   )
 }
 
