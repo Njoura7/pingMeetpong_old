@@ -41,37 +41,39 @@ const SignUp = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
-          type='text'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input
-          type='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Confirm Password:
-        <input
-          type='password'
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </label>
-      <br />
-      <button type='submit'>Sign Up</button>
-      {error && <p>{error}</p>}
-    </form>
+    <>
+      <form>
+        <label>
+          Username:
+          <input
+            type='text'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Confirm Password:
+          <input
+            type='password'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </label>
+        <br />
+        <button type='submit'>Sign Up</button>
+        {error && <p>{error}</p>}
+      </form>
+    </>
   )
 }
 
