@@ -23,7 +23,7 @@ const SignUp = () => {
     try {
       const response = await axios.post(
         //waiting for the api/signup endpoint to be created
-        "http:/localhost:8080/api/signup",
+        "http://localhost:8080/api/signup",
         JSON.stringify(userData),
         {
           headers: {
@@ -42,7 +42,7 @@ const SignUp = () => {
 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           Username:
           <input

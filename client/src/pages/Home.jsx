@@ -9,6 +9,9 @@ const Home = () => {
       <Link to='/join-event'>
         <button>Join event</button>
       </Link>
+      <Link to='/look-forPlayer'>
+        <button>Look for Player</button>
+      </Link>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom"
 import { logo } from "./assets"
-import { Home, SignUp, Login, CreateEvent, JoinEvent } from "./pages"
+import { Home, SignUp, Login, CreateEvent, JoinEvent, LookForPlayer } from "./pages"
 // import "./index.css"
 
 function App() {
@@ -44,6 +44,10 @@ function App() {
           <Route
             path='/join-event'
             element={<JoinEvent />}
+          />
+          <Route
+            path='/look-forPlayer'
+            element={<LookForPlayer />}
           />
         </Routes>
       </main>
