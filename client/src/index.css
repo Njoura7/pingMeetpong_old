@@ -73,6 +73,43 @@ form {
   justify-content: space-around;
   align-items: center;
 }
+/* implementing the search input */
+.search {
+  width: 75%;
+  position: relative;
+  text-align: center;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.searchTerm {
+  width: 80%;
+  border: 3px solid #00b4cc;
+  border-right: none;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #b3c3bc;
+}
+
+.searchButton {
+  height: 36px;
+  margin: 0;
+  border: 1px solid #00b4cc;
+  color: #fff;
+  background: #00b4cc;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
