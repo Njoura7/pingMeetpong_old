@@ -2,7 +2,8 @@ import express from "express"
 import * as dotenv from "dotenv"
 import cors from "cors"
 import connectDB from "./mongodb/connect.js"
-import Player from "./mongodb/models/Users.js"
+import User from "./mongodb/models/Users.js"
+import Match from "./mongodb/models/Matches.js"
 
 dotenv.config()
 
@@ -16,7 +17,7 @@ app.use(express.json())
 
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body
-  Player.findOne({ username: username }).then((user) => {
+  User.findOne({ username: username }).then((user) => {
     if (user) {
       if (user.password === password) res.json("success")
       else res.json("password incorrect")
@@ -29,13 +30,13 @@ app.post("/api/login", (req, res) => {
 
 //? First approach
 app.post("/api/signup", (req, res) => {
-  Player.create(req.body)
+  User.create(req.body)
     .then((result) => res.json(result))
     .catch((err) => res.json(err))
 })
 //todo discuss about the get request with khabiro
 app.get("/api/signup", (req, res) => {
-  Player.find()
+  User.find()
     .then((result) => res.json(result))
     .catch((err) => res.json(err))
 })
@@ -69,6 +70,15 @@ app.get("/api/signup", (req, res) => {
 //     res.json(error)
 //   }
 // })
+/*Post request creating an event(Match)*/
+app.post("/api/create-event",async(req,res)=>{
+Match.create(req.body)
+.then((match)=>(res.json(match)))
+.catch((error)=>(res.json(error)));
+
+})
+
+
 
 const startServer = async () => {
   try {
