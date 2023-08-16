@@ -17,7 +17,7 @@ function LookForPlayer() {
           className='searchButton'>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
-            size='l'
+            size='xl'
             style={{ color: "#ccc" }}
           />
         </button>
