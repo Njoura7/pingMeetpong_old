@@ -16,6 +16,6 @@ const userSchema = mongoose.Schema({
   availability: Boolean,
 })
 
-const User = mongoose.model("User", userSchema)
+const Player = mongoose.model("Player", userSchema)
 
-export default User
+export default Player
