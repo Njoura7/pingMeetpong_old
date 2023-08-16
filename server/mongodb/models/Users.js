@@ -18,4 +18,4 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model("User", userSchema,'players')
 
-export default User
+export default Player
