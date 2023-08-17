@@ -1,31 +1,15 @@
-import { Routes, Link, Route } from "react-router-dom"
-import { logo } from "./assets"
+import { Routes, Route } from "react-router-dom"
+
 import { Home, SignUp, Login, CreateEvent, JoinEvent, LookForPlayer } from "./pages"
+import Header from "./components/Header"
 
 import { AuthProvider } from "./contexts/AuthContext"
 import ProtectedRoute from "./routes/ProtectedRoute"
-// import "./index.css"
 
 function App() {
   return (
     <AuthProvider>
-      <header>
-        <Link to='/'>
-          <img
-            src={logo}
-            alt='logo'
-            className='img'
-          />
-        </Link>
-        <div>
-          <Link to='/signup'>
-            <button>Sign Up</button>
-          </Link>
-          <Link to='/login'>
-            <button>Login</button>
-          </Link>
-        </div>
-      </header>
+      <Header />
       <main>
         <Routes>
           <Route

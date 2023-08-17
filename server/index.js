@@ -19,8 +19,14 @@ app.post("/api/login", (req, res) => {
   const { username, password } = req.body
   User.findOne({ username: username }).then((user) => {
     if (user) {
-      if (user.password === password) res.json("success")
-      else res.json("password incorrect")
+      if (user.password === password) {
+        // Set a dummy authentication token
+        const authToken = "dummy_auth_token"
+
+        // Set the authorization header and send the token in the response
+        res.setHeader("authorization", authToken)
+        res.json("success")
+      } else res.json("password incorrect")
     } else {
       res.json("username doesn't exist")
     }

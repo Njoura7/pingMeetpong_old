@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
 import { Link } from "react-router-dom"
@@ -9,10 +9,20 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
 
-  const { setIsAuthenticated } = useContext(AuthContext)
   const navigate = useNavigate()
   const location = useLocation()
   const { from } = location.state || { from: { pathname: "/" } }
+
+  const { setIsAuthenticated } = useContext(AuthContext)
+
+  useEffect(() => {
+    // Check if the user is already authenticated
+    const authToken = localStorage.getItem("authToken")
+    if (authToken) {
+      setIsAuthenticated(true)
+      navigate(from)
+    }
+  }, [setIsAuthenticated, navigate, from])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,7 +42,12 @@ const Login = () => {
       )
       // Handle the response here
       if (response.data === "success") {
+        //store the user token in localStorage
+        const authToken = response.headers["authorization"]
+        console.log("authToken:", authToken) // Add this line to log the authToken
+        localStorage.setItem("authToken", authToken)
         setIsAuthenticated(true)
+
         navigate(from)
         console.log("Login successful")
       } else {
