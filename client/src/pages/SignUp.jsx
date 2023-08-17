@@ -32,6 +32,9 @@ const SignUp = () => {
           },
         }
       )
+      // Redirect to the home page
+      // const navigate = useNavigate()
+      // navigate("/")
 
       // Handle the response here, such as displaying a success message
       console.log(response.data)

@@ -2,7 +2,7 @@ import express from "express"
 import * as dotenv from "dotenv"
 import cors from "cors"
 import connectDB from "./mongodb/connect.js"
-import User from "./mongodb/models/Users.js"
+import User from "./mongodb/models/Players.js"
 import Match from "./mongodb/models/Matches.js"
 
 dotenv.config()
@@ -71,14 +71,11 @@ app.get("/api/signup", (req, res) => {
 //   }
 // })
 /*Post request creating an event(Match)*/
-app.post("/api/create-event",async(req,res)=>{
-Match.create(req.body)
-.then((match)=>(res.json(match)))
-.catch((error)=>(res.json(error)));
-
+app.post("/api/create-event", async (req, res) => {
+  Match.create(req.body)
+    .then((match) => res.json(match))
+    .catch((error) => res.json(error))
 })
-
-
 
 const startServer = async () => {
   try {
