@@ -1,12 +1,18 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import axios from "axios"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const SignUp = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
+
+  const navigate = useNavigate()
+  const handleSuccessfulSignup = () => {
+    // Redirect to the login page
+    navigate("/login")
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,9 +38,8 @@ const SignUp = () => {
           },
         }
       )
-      // Redirect to the home page
-      // const navigate = useNavigate()
-      // navigate("/")
+
+      handleSuccessfulSignup() // Call handleSuccessfulSignup function after successful signup
 
       // Handle the response here, such as displaying a success message
       console.log(response.data)

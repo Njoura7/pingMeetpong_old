@@ -1,4 +1,4 @@
-import { Routes, Link, Route, useNavigate } from "react-router-dom"
+import { Routes, Link, Route } from "react-router-dom"
 import { logo } from "./assets"
 import { Home, SignUp, Login, CreateEvent, JoinEvent, LookForPlayer } from "./pages"
 
@@ -7,12 +7,6 @@ import ProtectedRoute from "./routes/ProtectedRoute"
 // import "./index.css"
 
 function App() {
-  const navigate = useNavigate()
-
-  const handleSuccessfulSignup = () => {
-    // Redirect to the home page
-    navigate("/")
-  }
   return (
     <AuthProvider>
       <header>
@@ -40,8 +34,7 @@ function App() {
           />
           <Route
             path='/signup'
-            //implementing handleSuccessfulSignup "onSuccess" event
-            element={<SignUp onSuccess={handleSuccessfulSignup} />}
+            element={<SignUp />}
           />
           <Route
             path='/login'
