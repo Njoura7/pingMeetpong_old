@@ -10,7 +10,7 @@ const SignUp = () => {
 
   const navigate = useNavigate()
   const handleSuccessfulSignup = () => {
-    // Clear the authentication token from localStorage
+    // Clear the authentication token from localStorage so that user log in
     localStorage.removeItem("authToken")
     // Redirect to the login page
     navigate("/login")
