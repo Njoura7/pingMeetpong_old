@@ -1,7 +1,11 @@
 import mongoose from "mongoose"
 
-const connectDB=(url)=>{
+const connectDB=async (url)=>{
     mongoose.set('strictQuery',true);
-    mongoose.connect(url).then(()=>console.log("db connected")).catch((e)=>console.log(e));
+    await mongoose.connect(url,{
+        useNewUrlParser: true,
+    useUnifiedTopology: true
+    }).then(()=>console.log("db connected")).catch((e)=>console.log("db connection failed"));
 }
 export default connectDB;
+
