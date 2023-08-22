@@ -4,6 +4,8 @@ import cors from "cors"
 import connectDB from "./mongodb/connect.js"
 import User from "./mongodb/models/Players.js"
 import Match from "./mongodb/models/Matches.js"
+const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // Define characters
+import mongoose, { Schema } from "mongoose"
 
 dotenv.config()
 
@@ -13,7 +15,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-//!change the endpoint into /api/login
+//---------------------------------------------------------------------------------------SIGNUP & LOGIN --------------------------------------------------------------------------------
 
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body
@@ -32,7 +34,6 @@ app.post("/api/login", (req, res) => {
     }
   })
 })
-//!change the endpoint into /api/signup
 
 //? First approach
 app.post("/api/signup", (req, res) => {
@@ -40,12 +41,7 @@ app.post("/api/signup", (req, res) => {
     .then((result) => res.json(result))
     .catch((err) => res.json(err))
 })
-//todo discuss about the get request with khabiro
-app.get("/api/signup", (req, res) => {
-  User.find()
-    .then((result) => res.json(result))
-    .catch((err) => res.json(err))
-})
+
 
 //? second approach -->most probably wrong coz it doesn't link to mongoDB
 // app.post("/api/signup", async (req, res) => {
@@ -76,12 +72,77 @@ app.get("/api/signup", (req, res) => {
 //     res.json(error)
 //   }
 // })
+
+
+
+//---------------------------------------------------------------------------------------CREATE MATCH--------------------------------------------------------------------------------
+
+
+//generate matchID
+async function generateMatchID(){
+  let generatedID="";
+  let exist=true;
+  while(exist){
+  for ( let i = 0; i < 7; i++ ) 
+      generatedID += characters.charAt(Math.floor(Math.random() * 7));
+  exist=await mongoose.model("Match").findOne({matchID:generatedID});
+}
+  return generatedID;
+  
+}
+
+
+//old post request 
+// app.post("/api/create-event", async (req, res) => {
+//   Match.create(req.body)
+//     .then((match) => res.json(match))
+//     .catch((error) => res.json(error))
+// })
+
+
 /*Post request creating an event(Match)*/
 app.post("/api/create-event", async (req, res) => {
-  Match.create(req.body)
-    .then((match) => res.json(match))
-    .catch((error) => res.json(error))
+  try{
+  let newEvent=new Match({
+    matchID:await generateMatchID(),
+    eventTitle:req.body.eventTitle,
+    hostUsername:"logged in player username",
+    playersList:[],
+    location: {
+      x: 46.0000,
+      y: 432.000,
+    },
+    date:req.body.date,
+    time:req.body.time
+  })
+const savedEvent=await newEvent.save();
+res.json(savedEvent.matchID);
+  }catch(e){
+    res.json({error:"Something Went Wrong ! "});
+  }
 })
+
+
+
+
+//---------------------------------------------------------------------------------------JOIN MATCH--------------------------------------------------------------------------------
+//Get Request to join a match
+app.post("/api/join",async(req,res)=>{
+  const matchID = req.body.matchID;
+
+  try {
+    const match = await Match.findOne({ matchID });
+
+    if (!match) {
+      return res.status(404).json("Match not found");
+    }
+    res.json(match.eventTitle);
+  } catch (error) {
+    console.error(error);
+    res.status(404).json("An error occurred");
+  }
+})
+
 
 const startServer = async () => {
   try {

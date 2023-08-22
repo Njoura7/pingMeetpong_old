@@ -1,21 +1,22 @@
 import { useState } from "react"
 import axios from "axios"
-
+// get the username of logged in user , check if he created a game already on the database , if he did he can't create one more till the other game ends 
 const CreateEvent = () => {
-  const [matchID, setMatchID] = useState("")
-  const [hostUsername, setHostUsername] = useState("")
+  const [eventTitle, setEventTitle] = useState("")
   const [playersList, setPlayersList] = useState([])
-
   const [location, setLocation] = useState("")
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
   const [status, setStatus] = useState(true)
+  const [hostUsername, sethostUsername] = useState("")
 
-  const handleSubmit = async (e) => {
+let todayDate=new Date().toISOString().split('T')[0];
+
+const handleSubmit = async (e) => {
     e.preventDefault()
 
     const matchData = {
-      matchID,
+      eventTitle,
       hostUsername,
       location,
       date,
@@ -33,9 +34,9 @@ const CreateEvent = () => {
           },
         }
       )
-      //display match details
-      console.log(response.data)
-    } catch (error) {
+      //a page should replace the create event that have players list and the invite code which is the matchID ,  
+alert("Match was created with a matchID : "+response.data);    
+} catch (error) {
       console.error(error)
     }
   }
@@ -44,30 +45,23 @@ const CreateEvent = () => {
     <>
       <form onSubmit={handleSubmit}>
         <label>
-          MatchID:
+          Enter The Game Title :
           <input
             type='text'
-            name='event-id'
-            value={matchID}
-            onChange={(e) => setMatchID(e.target.value)}
-          />
-        </label>
-        <label>
-          Enter your Username(as a Host):
-          <input
-            type='text'
-            name='creator-username'
-            value={hostUsername}
-            onChange={(e) => setHostUsername(e.target.value)}
+            name='event-title'
+            value={eventTitle}
+            required
+            onChange={(e) => setEventTitle(e.target.value)}
           />
         </label>
         <label>
           Location:
           <input
-            type='next'
+            type='text'
             name='location'
-            placeholder='address'
+            placeholder='Address'
             value={location}
+            required
             onChange={(e) => setLocation(e.target.value)}
           />
         </label>
@@ -75,8 +69,10 @@ const CreateEvent = () => {
           Date:
           <input
             type='date'
+            min={todayDate}
             name='date'
             value={date}
+            required
             onChange={(e) => setDate(e.target.value)}
           />
         </label>
@@ -86,19 +82,10 @@ const CreateEvent = () => {
             type='time'
             name='time'
             value={time}
+            required
             onChange={(e) => setTime(e.target.value)}
           />
         </label>
-        <label>
-          Availability:
-          <input
-            type='checkbox'
-            name='status'
-            checked={status}
-            onChange={(e) => setStatus(e.target.checked)}
-          />
-        </label>
-
         <input
           type='submit'
           value='Submit'

@@ -1,8 +1,10 @@
-import mongoose from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
 const matchSchema = mongoose.Schema({
   matchID: { type: String, unique: true },
-  hostUsername: String,
+  //this will be fetched from the logged in user already not from database
+  hostUsername:String,
+  eventTitle: String,
   playersList: [],
   status: Boolean,
   location: {
@@ -13,7 +15,18 @@ const matchSchema = mongoose.Schema({
   // considering using "timestamp" --not sure though
   time: String,
 })
+// matchSchema.pre("save",async function(next){
+//     try {
+//         this.matchID = await generateMatchID();
+//         next();
+//       } catch (error) {
+//         next(error);
+//       }
+// })
+
+
 
 const Match = mongoose.model("Match", matchSchema, "matches")
+
 
 export default Match

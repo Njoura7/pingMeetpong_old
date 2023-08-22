@@ -12,8 +12,9 @@ const userSchema = mongoose.Schema({
     Wins: Number,
     Losses: Number,
   },
+  matchJoined:String,
   matchHistory: String,
-  availability: Boolean,
+  availability: Boolean
 })
 
 const Player = mongoose.model("User", userSchema, "players")
