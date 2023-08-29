@@ -32,7 +32,7 @@ const SignUp = () => {
     try {
       const response = await axios.post(
         //waiting for the api/signup endpoint to be created
-        "http://localhost:8080/api/signup",
+        "http://localhost:8080/auth/signup",
         JSON.stringify(userData),
         {
           headers: {
@@ -47,7 +47,7 @@ const SignUp = () => {
       console.log(response.data)
     } catch (error) {
       // Handle errors here
-      console.error(error)
+      console.error(error.response.data);
     }
   }
 

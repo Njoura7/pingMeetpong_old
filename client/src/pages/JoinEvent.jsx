@@ -10,12 +10,12 @@ const JoinEvent = () => {
 
     const matchData = {
     matchID,
-    username  
+    username
     }
     try {
       const response = await axios.post(
         //waiting for the api/signup endpoint to be created
-        "http://localhost:8080/api/join",
+        "http://localhost:8080/api/events/join-event",
         JSON.stringify(matchData),
         {
           headers: {

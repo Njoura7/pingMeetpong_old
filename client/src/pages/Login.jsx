@@ -32,7 +32,7 @@ const Login = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/login",
+        "http://localhost:8080/auth/login",
         JSON.stringify(userData),
         {
           headers: {
@@ -41,10 +41,10 @@ const Login = () => {
         }
       )
       // Handle the response here
-      if (response.data === "success") {
+      if (response.status === 200) {
         //store the user token in localStorage
         const authToken = response.headers["authorization"]
-        console.log("authToken:", authToken) // Add this line to log the authToken
+        console.log("authToken:", response.data.token) // Add this line to log the authToken
         localStorage.setItem("authToken", authToken)
         setIsAuthenticated(true)
 

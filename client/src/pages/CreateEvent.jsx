@@ -26,7 +26,7 @@ const handleSubmit = async (e) => {
     try {
       const response = await axios.post(
         //waiting for the api/signup endpoint to be created
-        "http://localhost:8080/api/create-event",
+        "http://localhost:8080/api/events/create-event",
         JSON.stringify(matchData),
         {
           headers: {
