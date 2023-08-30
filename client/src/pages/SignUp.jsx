@@ -32,6 +32,7 @@ const SignUp = () => {
     try {
       const response = await axios.post(
         //waiting for the api/signup endpoint to be created
+        //auth/signup?
         "http://localhost:8080/auth/signup",
         JSON.stringify(userData),
         {
@@ -47,7 +48,8 @@ const SignUp = () => {
       console.log(response.data)
     } catch (error) {
       // Handle errors here
-      console.error(error.response.data);
+
+      setError(error.response.data.msg)
     }
   }
 

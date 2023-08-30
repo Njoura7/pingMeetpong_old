@@ -1,14 +1,13 @@
 import express from "express"
 import * as dotenv from "dotenv"
 import cors from "cors"
-import connectDB from "./mongodb/connect.js"
-import Player from "./mongodb/models/Player.js"
-import Match from "./mongodb/models/Match.js"
+import connectDB from "./db/connect.js"
+import Player from "./db/models/Player.js"
+import Match from "./db/models/Match.js"
 import mongoose, { Schema } from "mongoose"
 import authRoutes from "./routes/authRoute.js"
-import eventsRoutes from "./routes/eventsRoute.js";
+import eventsRoutes from "./routes/eventsRoute.js"
 //import usersRoutes from "./routes/userRoute.js"
-
 
 dotenv.config()
 
@@ -20,11 +19,9 @@ app.use(express.json())
 
 //---------------------------------------------------------------------------------------    SIGNUP & LOGIN       -----------------------------------------------------------------------------------
 
-app.use("/auth",authRoutes);
-app.use("/auth",authRoutes);
+app.use("/auth", authRoutes)
 //---------------------------------------------------------------------------------------    CREATE&JOIN MATCH    --------------------------------------------------------------------------------
-app.use("/api/events",eventsRoutes);
-
+app.use("/api/events", eventsRoutes)
 
 // app.post("/api/login", (req, res) => {
 //   const { username, password } = req.body
@@ -50,7 +47,6 @@ app.use("/api/events",eventsRoutes);
 //     .then((result) => res.json(result))
 //     .catch((err) => res.json(err))
 // })
-
 
 //? second approach -->most probably wrong coz it doesn't link to mongoDB
 // app.post("/api/signup", async (req, res) => {

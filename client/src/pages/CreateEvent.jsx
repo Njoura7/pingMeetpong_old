@@ -1,6 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
-// get the username of logged in user , check if he created a game already on the database , if he did he can't create one more till the other game ends 
+// get the username of logged in user , check if he created a game already on the database , if he did he can't create one more till the other game ends
 const CreateEvent = () => {
   const [eventTitle, setEventTitle] = useState("")
   const [playersList, setPlayersList] = useState([])
@@ -10,9 +10,9 @@ const CreateEvent = () => {
   const [status, setStatus] = useState(true)
   const [hostUsername, sethostUsername] = useState("")
 
-let todayDate=new Date().toISOString().split('T')[0];
+  let todayDate = new Date().toISOString().split("T")[0]
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const matchData = {
@@ -34,9 +34,9 @@ const handleSubmit = async (e) => {
           },
         }
       )
-      //a page should replace the create event that have players list and the invite code which is the matchID ,  
-alert("Match was created with a matchID : "+response.data);    
-} catch (error) {
+      //a page should replace the create event that have players list and the invite code which is the matchID ,
+      console.log(response)
+    } catch (error) {
       console.error(error)
     }
   }

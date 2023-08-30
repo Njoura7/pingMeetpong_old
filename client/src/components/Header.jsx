@@ -17,7 +17,9 @@ function Header() {
       </Link>
       <div>
         {isAuthenticated ? (
-          <button onClick={handleLogout}>Logout</button>
+          <Link to='/login'>
+            <button onClick={handleLogout}>Logout</button>
+          </Link>
         ) : (
           <>
             <Link to='/signup'>
