@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import PropTypes from "prop-types"
 
 export const AuthContext = React.createContext()
@@ -19,9 +20,12 @@ export const AuthProvider = ({ children }) => {
   }
 
   //TODO to Be implemented for the logout
+  const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem("authToken")
     setIsAuthenticated(false)
+    // Redirect to the login page
+    navigate("/login")
   }
 
   return (

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { logo } from "../assets"
 
-import React, { useContext } from "react"
+import { useContext } from "react"
 import { AuthContext } from "../contexts/AuthContext"
 
 function Header() {
@@ -17,9 +17,7 @@ function Header() {
       </Link>
       <div>
         {isAuthenticated ? (
-          <Link to='/login'>
-            <button onClick={handleLogout}>Logout</button>
-          </Link>
+          <button onClick={handleLogout}>Logout</button>
         ) : (
           <>
             <Link to='/signup'>

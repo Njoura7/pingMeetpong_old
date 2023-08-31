@@ -48,7 +48,7 @@ const SignUp = () => {
       console.log(response.data)
     } catch (error) {
       // Handle errors here
-
+      console.log(error)
       setError(error.response.data.msg)
     }
   }
@@ -84,7 +84,7 @@ const SignUp = () => {
         </label>
         <br />
         <button type='submit'>Sign Up</button>
-        {error && <p>{error}</p>}
+        {error && <p className='error-msg'>{error}</p>}
       </form>
       <p>already have an account ?</p>
       <Link to='/login'>

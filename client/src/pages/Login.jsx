@@ -45,18 +45,18 @@ const Login = () => {
       if (response.status === 200) {
         //store the user token in localStorage
         const authToken = response.headers["authorization"]
-        console.log("authToken:", response.data.token) // Add this line to log the authToken
+        //TODO: to delete when deploying the app
+        // console.log("authToken:", response.data.token) // Add this line to log the authToken
         localStorage.setItem("authToken", authToken)
         setIsAuthenticated(true)
 
         navigate(from)
         console.log("Login successful")
-      } else {
-        setError(response.data)
       }
     } catch (error) {
       //handle errors here
       console.log(error)
+      setError(error.response.data.msg)
     }
   }
 
@@ -81,16 +81,15 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <input
-          type='submit'
-          value='Submit'
-        />
-        {error && <p>{error}</p>}
+        <button type='submit'>Login</button>
+        {error && <p className='error-msg'>{error}</p>}
       </form>
-      <p> Don&apos;t have an account?</p>
-      <Link to='/signup'>
-        <button>Signup</button>
-      </Link>
+      <div>
+        <p> Don&apos;t have an account?</p>
+        <Link to='/signup'>
+          <button>Sign Up</button>
+        </Link>
+      </div>
     </>
   )
 }

@@ -110,6 +110,26 @@ form {
   cursor: pointer;
 }
 
+.error-msg {
+  background-color: rgb(207, 86, 86);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+}
+
+.match-card {
+  margin: 1rem 2rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(141, 155, 167);
+  width: 17rem;
+  color: black;
+
+  border-radius: 1.25rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

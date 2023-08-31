@@ -1,27 +1,49 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
 // get the username of logged in user , check if he created a game already on the database , if he did he can't create one more till the other game ends
 const CreateEvent = () => {
-  const [eventTitle, setEventTitle] = useState("")
-  const [playersList, setPlayersList] = useState([])
-  const [location, setLocation] = useState("")
-  const [date, setDate] = useState("")
-  const [time, setTime] = useState("")
-  const [status, setStatus] = useState(true)
-  const [hostUsername, sethostUsername] = useState("")
+  const [formData, setFormData] = useState({
+    eventTitle: "",
+    playersList: [],
+    location: "",
+    date: "",
+    time: "",
+    status: true,
+    hostUsername: "",
+    matchID: "",
+  })
+
+  //List of submissions that will be stored in localStorage
+  const [submissions, setSubmissions] = useState(
+    JSON.parse(localStorage.getItem("submissions")) || []
+  )
 
   let todayDate = new Date().toISOString().split("T")[0]
 
+  useEffect(() => {
+    localStorage.setItem("submissions", JSON.stringify(submissions))
+  }, [submissions])
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // add the new form data to the submissions list
+    setSubmissions([...submissions, formData])
 
+    //create the match data "aka form data also" to be sent to the server
     const matchData = {
-      eventTitle,
-      hostUsername,
-      location,
-      date,
-      time,
-      status,
+      eventTitle: formData.eventTitle,
+      hostUsername: formData.hostUsername,
+      location: formData.location,
+      date: formData.date,
+      time: formData.time,
+      status: formData.status,
     }
     try {
       const response = await axios.post(
@@ -34,11 +56,33 @@ const CreateEvent = () => {
           },
         }
       )
-      //a page should replace the create event that have players list and the invite code which is the matchID ,
       console.log(response)
+      // Use response.data.matchID directly when rendering
+      const newSubmission = {
+        ...formData,
+        matchID: response.data.matchID,
+      }
+      //clear the form
+      setFormData({
+        eventTitle: "",
+        playersList: [],
+        location: "",
+        date: "",
+        time: "",
+        status: true,
+        hostUsername: "",
+        matchID: "",
+      })
+      // Add the newSubmission to submissions
+      setSubmissions([...submissions, newSubmission])
     } catch (error) {
-      console.error(error)
+      console.log(error)
     }
+  }
+  const handleDelete = (index) => {
+    const newSubmissions = [...submissions]
+    newSubmissions.splice(index, 1)
+    setSubmissions(newSubmissions)
   }
 
   return (
@@ -48,10 +92,10 @@ const CreateEvent = () => {
           Enter The Game Title :
           <input
             type='text'
-            name='event-title'
-            value={eventTitle}
+            name='eventTitle'
+            value={formData.eventTitle}
             required
-            onChange={(e) => setEventTitle(e.target.value)}
+            onChange={handleChange}
           />
         </label>
         <label>
@@ -60,9 +104,9 @@ const CreateEvent = () => {
             type='text'
             name='location'
             placeholder='Address'
-            value={location}
+            value={formData.location}
             required
-            onChange={(e) => setLocation(e.target.value)}
+            onChange={handleChange}
           />
         </label>
         <label>
@@ -71,9 +115,9 @@ const CreateEvent = () => {
             type='date'
             min={todayDate}
             name='date'
-            value={date}
+            value={formData.date}
             required
-            onChange={(e) => setDate(e.target.value)}
+            onChange={handleChange}
           />
         </label>
         <label>
@@ -81,16 +125,30 @@ const CreateEvent = () => {
           <input
             type='time'
             name='time'
-            value={time}
+            value={formData.time}
             required
-            onChange={(e) => setTime(e.target.value)}
+            onChange={handleChange}
           />
         </label>
-        <input
-          type='submit'
-          value='Submit'
-        />
+        <button type='submit'>Create</button>
       </form>
+      {submissions.map((submission, index) => {
+        return (
+          <div
+            key={index}
+            className='match-card'>
+            <h2>
+              Event{index + 1}: {submission.eventTitle}
+            </h2>
+            <div>Location: {submission.location}</div>
+            <div>Date: {submission.date}</div>
+            <div>Time: {submission.time}</div>
+            <div>MatchId: {submission.matchID}</div>
+
+            <button onClick={() => handleDelete(index)}>Delete</button>
+          </div>
+        )
+      })}
     </>
   )
 }

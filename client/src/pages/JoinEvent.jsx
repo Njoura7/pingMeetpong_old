@@ -2,15 +2,15 @@ import { useState } from "react"
 import axios from "axios"
 
 const JoinEvent = () => {
-  const [matchID,setMatchID]=useState("");
-  const [username,setUsername]=useState("");
+  const [matchID, setMatchID] = useState("")
+  const [username, setUsername] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const matchData = {
-    matchID,
-    username
+      matchID,
+      username,
     }
     try {
       const response = await axios.post(
@@ -23,10 +23,10 @@ const JoinEvent = () => {
           },
         }
       )
-      //a page should replace the create event that have players list and the invite code which is the matchID ,  
-alert("Match was found with a matchID : "+response.data);    
-} catch (error) {
-  alert("No match was Found");
+      //a page should replace the create event that have players list and the invite code which is the matchID ,
+      alert("Match was found with a matchID : " + response.data)
+    } catch (error) {
+      alert("No match was Found")
     }
   }
   return (
@@ -38,7 +38,7 @@ alert("Match was found with a matchID : "+response.data);
             type='text'
             name='event-id'
             value={matchID}
-            onChange={(e)=>setMatchID(e.target.value)}
+            onChange={(e) => setMatchID(e.target.value)}
           />
         </label>
         <label>
@@ -47,13 +47,10 @@ alert("Match was found with a matchID : "+response.data);
             type='text'
             name='participant-username'
             value={username}
-            onChange={(e)=>setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </label>
-        <input
-          type='submit'
-          value='Submit'
-        />
+        <button type='submit'>Join</button>
       </form>
     </>
   )
