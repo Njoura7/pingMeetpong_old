@@ -4,7 +4,7 @@ import { logo } from "../assets"
 import { useContext } from "react"
 import { AuthContext } from "../contexts/AuthContext"
 
-function Header() {
+const Header = () => {
   const { isAuthenticated, handleLogout } = useContext(AuthContext)
   return (
     <header>

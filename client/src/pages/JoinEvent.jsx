@@ -1,9 +1,13 @@
 import { useState } from "react"
 import axios from "axios"
+import Modal from "../components/Modal"
 
 const JoinEvent = () => {
   const [matchID, setMatchID] = useState("")
   const [username, setUsername] = useState("")
+  //states for the modal
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -24,10 +28,20 @@ const JoinEvent = () => {
         }
       )
       //a page should replace the create event that have players list and the invite code which is the matchID ,
-      alert("Match was found with a matchID : " + response.data)
+      console.log("Match was found with Event Title : " + response.data)
+
+      setModalMessage("Match was found with Event Title: " + response.data)
+      setIsModalOpen(true)
     } catch (error) {
-      alert("No match was Found")
+      console.log("No match was Found")
+
+      setModalMessage("No match was found")
+      setIsModalOpen(true)
     }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
   }
   return (
     <>
@@ -52,6 +66,12 @@ const JoinEvent = () => {
         </label>
         <button type='submit'>Join</button>
       </form>
+      {/* Render the Modal component */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        message={modalMessage}
+      />
     </>
   )
 }
