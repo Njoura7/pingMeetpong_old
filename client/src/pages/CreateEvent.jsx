@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+
+import { useLoggedInUsername } from "../contexts/UserContext"
+
 // get the username of logged in user , check if he created a game already on the database , if he did he can't create one more till the other game ends
 const CreateEvent = () => {
+  //track the logged in user using the UserContext
+  const { loggedInUsername } = useLoggedInUsername()
+
   const [formData, setFormData] = useState({
     eventTitle: "",
     playersList: [],
@@ -140,6 +146,7 @@ const CreateEvent = () => {
             <h2>
               Event{index + 1}: {submission.eventTitle}
             </h2>
+            <p>Welcome, {loggedInUsername}!</p>
             <div>Location: {submission.location}</div>
             <div>Date: {submission.date}</div>
             <div>Time: {submission.time}</div>

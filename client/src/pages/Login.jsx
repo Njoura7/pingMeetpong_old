@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../contexts/AuthContext"
+import { useLoggedInUsername } from "../contexts/UserContext" // Import the UserContext hook
 
 const Login = () => {
   const [username, setUsername] = useState("")
@@ -14,6 +15,7 @@ const Login = () => {
   const { from } = location.state || { from: { pathname: "/" } }
 
   const { setIsAuthenticated } = useContext(AuthContext)
+  const { setLoggedInUsername } = useLoggedInUsername() // Get the setLoggedInUsername function
 
   useEffect(() => {
     // Check if the user is already authenticated
@@ -49,6 +51,9 @@ const Login = () => {
         // console.log("authToken:", response.data.token) // Add this line to log the authToken
         localStorage.setItem("authToken", authToken)
         setIsAuthenticated(true)
+
+        // Set the logged-in username here
+        setLoggedInUsername(username)
 
         navigate(from)
         console.log("Login successful")
