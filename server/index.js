@@ -7,7 +7,7 @@ import Match from "./db/models/Match.js"
 import mongoose, { Schema } from "mongoose"
 import authRoutes from "./routes/authRoute.js"
 import eventsRoutes from "./routes/eventsRoute.js"
-//import usersRoutes from "./routes/userRoute.js"
+import usersRoutes from "./routes/usersRoute.js"
 
 dotenv.config()
 
@@ -22,6 +22,7 @@ app.use(express.json())
 app.use("/auth", authRoutes)
 //---------------------------------------------------------------------------------------    CREATE&JOIN MATCH    --------------------------------------------------------------------------------
 app.use("/api/events", eventsRoutes)
+app.use("/api/users",usersRoutes)
 
 // app.post("/api/login", (req, res) => {
 //   const { username, password } = req.body

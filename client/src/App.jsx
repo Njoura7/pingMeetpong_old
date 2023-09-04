@@ -36,7 +36,7 @@ function App() {
               element={<JoinEvent />}
             />
             <Route
-              path='/look-forPlayer'
+              path='/search-player'
               element={<LookForPlayer />}
             />
           </Routes>

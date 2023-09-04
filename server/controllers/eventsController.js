@@ -48,3 +48,28 @@ export const joinEvent = async (req, res) => {
     res.status(404).json("An error occurred")
   }
 }
+
+export const deleteEvent=async(req,res)=>{
+  const matchID = req.query.matchID;
+  console.log(req.query);
+  try {
+
+    const match = await Match.findOne({matchID});
+    
+    if (!match) {
+      return res.status(404).json({ error: "MatchID Not Found" });
+    }
+
+    const deleted = await Match.deleteOne({matchID:matchID});
+
+    if (deleted.deletedCount === 1) {
+      return res.status(200).json({ message: "Match Deleted!" });
+    } else {
+      return res.status(404).json({ error: "MatchID Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+        res.status(500).json({error});
+  }
+}
+

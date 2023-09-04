@@ -39,8 +39,6 @@ const CreateEvent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // add the new form data to the submissions list
-    setSubmissions([...submissions, formData])
 
     //create the match data "aka form data also" to be sent to the server
     const matchData = {
@@ -63,12 +61,16 @@ const CreateEvent = () => {
         }
       )
       console.log(response)
-      // Use response.data.matchID directly when rendering
-      const newSubmission = {
-        ...formData,
-        matchID: response.data.matchID,
-      }
-      //clear the form
+      console.log("before addition")
+      // get the match id from response 
+         formData.matchID= response.data.matchID
+      
+         
+         console.log(submissions)
+         //clear the form
+         setSubmissions([...submissions, formData])
+         console.log("after aadition :")
+         console.log(submissions)
       setFormData({
         eventTitle: "",
         playersList: [],
@@ -79,13 +81,18 @@ const CreateEvent = () => {
         hostUsername: "",
         matchID: "",
       })
-      // Add the newSubmission to submissions
-      setSubmissions([...submissions, newSubmission])
     } catch (error) {
       console.log(error)
     }
   }
-  const handleDelete = (index) => {
+  const handleDelete = async (index,matchid) => {
+    try{
+      console.log(matchid)
+      await axios.delete(`http://localhost:8080/api/events/create-event?matchID=${matchid}`).
+      then((response)=>console.log(response));  
+    }catch(error){
+      console.log(error);
+    }
     const newSubmissions = [...submissions]
     newSubmissions.splice(index, 1)
     setSubmissions(newSubmissions)
@@ -146,13 +153,12 @@ const CreateEvent = () => {
             <h2>
               Event{index + 1}: {submission.eventTitle}
             </h2>
-            <p>Welcome, {loggedInUsername}!</p>
+            <p>Host :  {loggedInUsername}!</p>
             <div>Location: {submission.location}</div>
             <div>Date: {submission.date}</div>
             <div>Time: {submission.time}</div>
             <div>MatchId: {submission.matchID}</div>
-
-            <button onClick={() => handleDelete(index)}>Delete</button>
+            <button onClick={() => handleDelete(index,submission.matchID)}>Delete</button>
           </div>
         )
       })}
