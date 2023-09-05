@@ -4,12 +4,12 @@ import { logo } from "../assets"
 import { useContext } from "react"
 import { AuthContext } from "../contexts/AuthContext"
 
-import { useLoggedInUsername } from "../contexts/UserContext"
+import UserContext from "../contexts/UserContext"
 
 const Header = () => {
   const { isAuthenticated, handleLogout } = useContext(AuthContext)
   //track the logged in user using the UserContext
-  const { loggedInUsername } = useLoggedInUsername()
+  const { loggedInUsername } = useContext(UserContext)
   return (
     <header>
       <Link to='/'>

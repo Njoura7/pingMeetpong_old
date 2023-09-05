@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import axios from "axios"
 
-import { useLoggedInUsername } from "../contexts/UserContext"
+import UserContext from "../contexts/UserContext"
 
 // get the username of logged in user , check if he created a game already on the database , if he did he can't create one more till the other game ends
 const CreateEvent = () => {
   //track the logged in user using the UserContext
-  const { loggedInUsername } = useLoggedInUsername()
+  const { loggedInUsername } = useContext(UserContext)
 
   const [formData, setFormData] = useState({
     eventTitle: "",
@@ -43,7 +43,7 @@ const CreateEvent = () => {
     //create the match data "aka form data also" to be sent to the server
     const matchData = {
       eventTitle: formData.eventTitle,
-      hostUsername: formData.hostUsername,
+      hostUsername: loggedInUsername,
       location: formData.location,
       date: formData.date,
       time: formData.time,
@@ -60,18 +60,13 @@ const CreateEvent = () => {
           },
         }
       )
-      console.log(response)
-      console.log("before addition")
+      console.log(response);
+   
       // get the match id from response 
-         formData.matchID= response.data.matchID
-      
-         
-         console.log(submissions)
-         //clear the form
+         formData.matchID= response.data.matchID     
          setSubmissions([...submissions, formData])
-         console.log("after aadition :")
-         console.log(submissions)
-      setFormData({
+         //clear the form
+         setFormData({
         eventTitle: "",
         playersList: [],
         location: "",

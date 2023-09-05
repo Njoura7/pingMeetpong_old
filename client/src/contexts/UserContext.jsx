@@ -3,8 +3,10 @@ import { createContext, useContext, useState } from "react"
 const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
-  const [loggedInUsername, setLoggedInUsername] = useState("")
-
+  const [loggedInUsername, setLoggedInUsername] = useState(
+    localStorage.getItem("loggedInUsername") || ""
+  );
+  
   return (
     <UserContext.Provider value={{ loggedInUsername, setLoggedInUsername }}>
       {children}
@@ -12,6 +14,4 @@ export const UserProvider = ({ children }) => {
   )
 }
 
-export function useLoggedInUsername() {
-  return useContext(UserContext)
-}
+export default UserContext;

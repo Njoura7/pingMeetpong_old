@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import axios from "axios"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../contexts/AuthContext"
-import { useLoggedInUsername } from "../contexts/UserContext" // Import the UserContext hook
+import UserContext from "../contexts/UserContext" // Import the UserContext hook
 
 const Login = () => {
   const [username, setUsername] = useState("")
@@ -15,8 +15,9 @@ const Login = () => {
   const { from } = location.state || { from: { pathname: "/" } }
 
   const { setIsAuthenticated } = useContext(AuthContext)
-  const { setLoggedInUsername } = useLoggedInUsername() // Get the setLoggedInUsername function
+  const { setLoggedInUsername } = useContext(UserContext) // Get the setLoggedInUsername function
 
+  //this logic runs when the component mounts (i.e., when it is initially rendered) and whenever any of the dependencies (setIsAuthenticated, navigate, or from) change
   useEffect(() => {
     // Check if the user is already authenticated
     const authToken = localStorage.getItem("authToken")
@@ -54,7 +55,7 @@ const Login = () => {
 
         // Set the logged-in username here
         setLoggedInUsername(username)
-
+        localStorage.setItem("loggedInUsername", username);
         navigate(from)
         console.log("Login successful")
       }

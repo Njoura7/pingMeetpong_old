@@ -18,7 +18,7 @@ export const createEvent = async (req, res) => {
     let newEvent = new Match({
       matchID: await generateMatchID(),
       eventTitle: req.body.eventTitle,
-      hostUsername: "logged in player username",
+      hostUsername: req.body.hostUsername,
       playersList: [],
       location: {
         x: 46.0,
