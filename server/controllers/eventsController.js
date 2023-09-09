@@ -51,7 +51,6 @@ export const joinEvent = async (req, res) => {
 
 export const deleteEvent=async(req,res)=>{
   const matchID = req.query.matchID;
-  console.log(req.query);
   try {
 
     const match = await Match.findOne({matchID});
@@ -71,5 +70,22 @@ export const deleteEvent=async(req,res)=>{
     console.error(error);
         res.status(500).json({error});
   }
+}
+
+export const getEvents=async(req,res)=>{
+
+const username=req.query.user;
+try{
+  const match = await Match.find({hostUsername:username});
+  console.log(match);
+  if (!match){
+    return res.json("")
+  }
+  res.status(201).json(match);
+}catch(error){
+  res.status(401).json({error:"Internal Server Error!"});
+}
+
+
 }
 

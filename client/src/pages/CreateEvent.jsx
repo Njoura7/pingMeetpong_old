@@ -7,7 +7,20 @@ import UserContext from "../contexts/UserContext"
 const CreateEvent = () => {
   //track the logged in user using the UserContext
   const { loggedInUsername } = useContext(UserContext)
+  
+  async function fetchMatches(){
+      try {
+        const response = await axios.get(`http://localhost:8080/api/events/create-event?user=${loggedInUsername}`)
+        console.log("api response")
+        console.log(response.data)
+        return response.data 
+      } catch (error) {
+         alert(error)
+         return [];
+      }
 
+    
+  }
   const [formData, setFormData] = useState({
     eventTitle: "",
     playersList: [],
@@ -20,21 +33,34 @@ const CreateEvent = () => {
   })
 
   //List of submissions that will be stored in localStorage
-  const [submissions, setSubmissions] = useState(
-    JSON.parse(localStorage.getItem("submissions")) || []
-  )
+const [submissions, setSubmissions] = useState([])
 
   let todayDate = new Date().toISOString().split("T")[0]
 
-  useEffect(() => {
-    localStorage.setItem("submissions", JSON.stringify(submissions))
-  }, [submissions])
+//check why submission is not being updated 
+  useEffect(()=>{
+    async function fetchData() {
+      try {
+        const data = await fetchMatches();
+        console.log("the dtat:")
+        console.log(data)
+        console.log("Before setSubmissions:", submissions);
+        setSubmissions(data);        
+        console.log("After setSubmissions:", typeof submissions);
+      } catch (error) {
+        alert(error);
+      }
+    }
+    fetchData();
+    console.log(submissions)
+  },[])
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
+
   }
 
   const handleSubmit = async (e) => {
@@ -49,6 +75,7 @@ const CreateEvent = () => {
       time: formData.time,
       status: formData.status,
     }
+   
     try {
       const response = await axios.post(
         //waiting for the api/signup endpoint to be created
@@ -60,11 +87,15 @@ const CreateEvent = () => {
           },
         }
       )
-      console.log(response);
-   
+      //In React, directly modifying the state object (e.g., formData) by assigning a new property value (e.g., formData.matchID) is generally discouraged because it may not trigger a re-render of your component. 
+      //React relies on immutable state updates to detect changes and trigger re-renders efficiently.
+      //When you update state by directly modifying the state object, React may not recognize the change, and your component may not re-render to reflect the updated state. This can lead to unexpected and inconsistent behavior in your application.
+      //The recommended approach in React is to use the state update function (e.g., setFormData) to create a new state object with the desired changes. This ensures that React knows about the state change and can re-render the component accordingly.
       // get the match id from response 
-         formData.matchID= response.data.matchID     
-         setSubmissions([...submissions, formData])
+         const newMatchID= response.data.matchID  
+  
+         setSubmissions([...submissions, {...formData,matchID:newMatchID,hostUsername:loggedInUsername}])
+         
          //clear the form
          setFormData({
         eventTitle: "",
@@ -142,21 +173,18 @@ const CreateEvent = () => {
       </form>
       {submissions.map((submission, index) => {
         return (
-          <div
-            key={index}
-            className='match-card'>
-            <h2>
-              Event{index + 1}: {submission.eventTitle}
-            </h2>
-            <p>Host :  {loggedInUsername}!</p>
-            <div>Location: {submission.location}</div>
+          <div key={index} className='match-card'>
+            <h2>Event {index + 1}: {submission.eventTitle}</h2>
+            <p>Host: {submission.hostUsername}!</p>
+            <div>Location: {submission.location.x+submission.location.y}</div>
             <div>Date: {submission.date}</div>
             <div>Time: {submission.time}</div>
             <div>MatchId: {submission.matchID}</div>
-            <button onClick={() => handleDelete(index,submission.matchID)}>Delete</button>
+            <button onClick={() => handleDelete(index, submission.matchID)}>Delete</button>
           </div>
         )
-      })}
+      })
+     }
     </>
   )
 }

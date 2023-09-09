@@ -7,7 +7,9 @@ import Player from "../db/models/Player.js"
 //registering doesn't need jwt , so it will be added in login
 export const register = async (req, res) => {
   try {
-    const { username, password } = req.body
+    let { username, password } = req.body
+    username = username.toLowerCase();
+
     const newPlayer = new Player({
       username,
       password,
@@ -26,6 +28,7 @@ export const register = async (req, res) => {
       res.status(400).json({ msg: "Username is already taken." })
     } else {
       res.status(500).json({ msg: "password too short (5 char minimum)" })
+      console.log(err);
     }
   }
 }
