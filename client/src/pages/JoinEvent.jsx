@@ -1,14 +1,14 @@
 import { useState } from "react"
 import axios from "axios"
 import Modal from "../components/Modal"
-
+import { useNavigate } from "react-router-dom"
 const JoinEvent = () => {
   const [matchID, setMatchID] = useState("")
   const [username, setUsername] = useState("")
   //states for the modal
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalMessage, setModalMessage] = useState("")
-
+  const navigate=useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -39,6 +39,9 @@ const JoinEvent = () => {
       setIsModalOpen(true)
     }
   }
+  const navigateHome=()=>{
+    navigate('/');
+  }
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -65,6 +68,8 @@ const JoinEvent = () => {
           />
         </label>
         <button type='submit'>Join</button>
+        <button onClick={navigateHome}>Back</button>
+
       </form>
       {/* Render the Modal component */}
       <Modal

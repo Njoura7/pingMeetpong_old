@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react"
+import {useNavigate} from "react-router-dom"
 import axios from "axios"
 
 import UserContext from "../contexts/UserContext"
@@ -7,7 +8,8 @@ import UserContext from "../contexts/UserContext"
 const CreateEvent = () => {
   //track the logged in user using the UserContext
   const { loggedInUsername } = useContext(UserContext)
-  
+  const navigate = useNavigate();
+
   async function fetchMatches(){
       try {
         const response = await axios.get(`http://localhost:8080/api/events/create-event?user=${loggedInUsername}`)
@@ -18,9 +20,11 @@ const CreateEvent = () => {
          alert(error)
          return [];
       }
-
-    
+      
   }
+  const navigateHome = () => {
+    navigate('/');
+  };
   const [formData, setFormData] = useState({
     eventTitle: "",
     playersList: [],
@@ -170,6 +174,7 @@ const [submissions, setSubmissions] = useState([])
           />
         </label>
         <button type='submit'>Create</button>
+        <button onClick={navigateHome}>Back</button>
       </form>
       {submissions.map((submission, index) => {
         return (
