@@ -2,12 +2,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import React,{useEffect, useState} from "react";
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 
 function LookForPlayer() {
   const [input,setInput]=useState("");
   const [results,setResults]=useState([]);
   const [showResults,setShowResults]=useState(false);
+  const navigate=useNavigate();
+  const navigateProfile=(username)=>{
+    navigate(`/profile?id=${username}`)
+  }
   const fetchData=async (value)=>{
     try {
         const response=await axios.get(`http://localhost:8080/api/users/search-player?q=${value}`)
@@ -20,7 +25,7 @@ function LookForPlayer() {
     }
   }
   const handleClick=(value)=>{
-    console.log(value)
+    navigateProfile(value)
   }
   const handleChange=(value)=>{
     setInput(value);

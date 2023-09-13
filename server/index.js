@@ -24,6 +24,7 @@ app.use("/auth", authRoutes)
 app.use("/api/events", eventsRoutes)
 app.use("/api/users",usersRoutes)
 
+
 // app.post("/api/login", (req, res) => {
 //   const { username, password } = req.body
 //   Player.findOne({ username: username }).then((user) => {

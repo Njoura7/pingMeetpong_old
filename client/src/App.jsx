@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 
-import { Home, SignUp, Login, CreateEvent, JoinEvent, LookForPlayer } from "./pages"
+import { Home, SignUp, Login, CreateEvent, JoinEvent, LookForPlayer,PlayerProfile } from "./pages"
 import Header from "./components/Header"
 
 import { AuthProvider } from "./contexts/AuthContext"
@@ -39,7 +39,12 @@ function App() {
               path='/search-player'
               element={<LookForPlayer />}
             />
+            <Route 
+            path='/profile'
+            element={<PlayerProfile/>}>
+            </Route>
           </Routes>
+        
         </main>
       </UserProvider>
     </AuthProvider>

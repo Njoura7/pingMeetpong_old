@@ -22,7 +22,11 @@ const userSchema = mongoose.Schema({
   },
   matchJoined: {
     type: String,
-    default: "",
+    default: ""
+  },
+  friendsList:{
+    type:Array,
+    default:[]
   },
   // match history = array of objects , object {date , mode (1v1,2v2) , result(win or lose), score}
   // matchHistory: {
