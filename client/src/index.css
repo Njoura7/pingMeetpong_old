@@ -4,11 +4,9 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -27,7 +25,6 @@ a:hover {
 
 body {
   margin: 0;
-
   min-width: 320px;
   min-height: 100vh;
 }
@@ -73,6 +70,7 @@ form {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  margin-top: 5em;
 }
 /* implementing the search input */
 .search {
@@ -134,11 +132,9 @@ form {
   border: 1px solid #00b4cc;
   color: #fff;
   background: #00b4cc;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   border-radius: 0 5px 5px 0;
   cursor: pointer;
 }
@@ -157,7 +153,6 @@ form {
   background-color: rgb(141, 155, 167);
   width: 17rem;
   color: black;
-
   border-radius: 1.25rem;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;

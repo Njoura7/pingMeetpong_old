@@ -13,8 +13,6 @@ const CreateEvent = () => {
   async function fetchMatches(){
       try {
         const response = await axios.get(`http://localhost:8080/api/events/create-event?user=${loggedInUsername}`)
-        console.log("api response")
-        console.log(response.data)
         return response.data 
       } catch (error) {
          alert(error)
@@ -46,17 +44,12 @@ const [submissions, setSubmissions] = useState([])
     async function fetchData() {
       try {
         const data = await fetchMatches();
-        console.log("the dtat:")
-        console.log(data)
-        console.log("Before setSubmissions:", submissions);
         setSubmissions(data);        
-        console.log("After setSubmissions:", typeof submissions);
       } catch (error) {
         alert(error);
       }
     }
     fetchData();
-    console.log(submissions)
   },[])
 
   const handleChange = (e) => {
@@ -117,7 +110,6 @@ const [submissions, setSubmissions] = useState([])
   }
   const handleDelete = async (index,matchid) => {
     try{
-      console.log(matchid)
       await axios.delete(`http://localhost:8080/api/events/create-event?matchID=${matchid}`).
       then((response)=>console.log(response));  
     }catch(error){
@@ -180,11 +172,12 @@ const [submissions, setSubmissions] = useState([])
         return (
           <div key={index} className='match-card'>
             <h2>Event {index + 1}: {submission.eventTitle}</h2>
-            <p>Host: {submission.hostUsername}!</p>
-            <div>Location: {submission.location.x+submission.location.y}</div>
-            <div>Date: {submission.date}</div>
-            <div>Time: {submission.time}</div>
-            <div>MatchId: {submission.matchID}</div>
+            <p>Host: {submission.hostUsername}</p>
+            <p>Location: {submission.location}</p>
+            <p>Date: {submission.date}</p>
+            <p>Time: {submission.time}</p>
+            <p>MatchId: {submission.matchID}</p>
+            <p>Players Number : {submission.playersList.length}</p>
             <button onClick={() => handleDelete(index, submission.matchID)}>Delete</button>
           </div>
         )

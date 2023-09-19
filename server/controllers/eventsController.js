@@ -20,10 +20,7 @@ export const createEvent = async (req, res) => {
       eventTitle: req.body.eventTitle,
       hostUsername: req.body.hostUsername,
       playersList: [],
-      location: {
-        x: 46.0,
-        y: 432.0,
-      },
+      location: req.body.location,
       date: req.body.date,
       time: req.body.time,
     })
@@ -40,12 +37,13 @@ export const joinEvent = async (req, res) => {
     const match = await Match.findOne({ matchID })
 
     if (!match) {
-      return res.status(404).json("Match not found")
+      return res.status(403).json("Match not found")
     }
+     
     res.json(match.eventTitle)
   } catch (error) {
     console.error(error)
-    res.status(404).json("An error occurred")
+    res.status(403).json("An error occurred")
   }
 }
 
@@ -77,7 +75,6 @@ export const getEvents=async(req,res)=>{
 const username=req.query.user;
 try{
   const match = await Match.find({hostUsername:username});
-  console.log(match);
   if (!match){
     return res.json("")
   }

@@ -11,25 +11,11 @@ const matchSchema = mongoose.Schema({
   eventTitle: String,
   playersList: [],
   status: Boolean,
-  location: {
-    x: Number,
-    y: Number,
-  },
+  location:String,
   date: Date,
   // considering using "timestamp" --not sure though
   time: String,
 })
-// matchSchema.pre("save",async function(next){
-//     try {
-//         this.matchID = await generateMatchID();
-//         next();
-//       } catch (error) {
-//         next(error);
-//       }
-// })
-
-
-
 const Match = mongoose.model("Match", matchSchema, "matches")
 
 

@@ -8,18 +8,24 @@ try{
     res.json(users)
 }catch(err){
     console.log(err);
-    res.stautus(500).json({message:"Internal Server Error"});
+    res.status(500).json({message:"Internal Server Error"});
 }
 }
 
 export const getProfile=async(req,res)=>{
     try{
-const username=req.body.username;
+const username=req.query.id;
 const user=await Player.findOne({username:username})
-res.json(user);
+const profileData={
+    reviews:user.reviews,
+    availability:user.availability,
+    record:user.record
+}
+res.json(profileData);
+
     }catch(error){
-        console.log(err);
-        res.stautus(500).json({message:"Internal Server Error"})
+        console.log(error);
+        res.status(500).json({message:"Internal Server Error"})
     }
 }
 
