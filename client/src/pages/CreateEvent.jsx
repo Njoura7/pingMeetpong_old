@@ -29,6 +29,7 @@ const CreateEvent = () => {
     location: "",
     date: "",
     time: "",
+    playersNumber:0,
     status: true,
     hostUsername: "",
     matchID: "",
@@ -60,6 +61,15 @@ const [submissions, setSubmissions] = useState([])
 
   }
 
+  const onChangeValue=(e)=>{
+    if (e.target.value=="duo")
+    setFormData({...formData,[e.target.name]:2})
+  else if(e.target.value=="quad")
+  setFormData({...formData,[e.target.name]:4})
+else 
+setFormData({...formData,[e.target.name]:12})
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -69,6 +79,7 @@ const [submissions, setSubmissions] = useState([])
       hostUsername: loggedInUsername,
       location: formData.location,
       date: formData.date,
+      playersNumber:formData.playersNumber,
       time: formData.time,
       status: formData.status,
     }
@@ -101,6 +112,7 @@ const [submissions, setSubmissions] = useState([])
         date: "",
         time: "",
         status: true,
+        playersNumber:0,
         hostUsername: "",
         matchID: "",
       })
@@ -165,6 +177,11 @@ const [submissions, setSubmissions] = useState([])
             onChange={handleChange}
           />
         </label>
+        <div onChange={onChangeValue} className="radioButton">
+        <input type="radio" value="duo" name="playersNumber" /> 1v1
+        <input type="radio" value="quad" name="playersNumber" /> 2v2
+        <input type="radio" value="Other" name="playersNumber" /> Other
+      </div>
         <button type='submit'>Create</button>
         <button onClick={navigateHome}>Back</button>
       </form>
@@ -177,7 +194,7 @@ const [submissions, setSubmissions] = useState([])
             <p>Date: {submission.date}</p>
             <p>Time: {submission.time}</p>
             <p>MatchId: {submission.matchID}</p>
-            <p>Players Number : {submission.playersList.length}</p>
+            <p>Players Number : {submission.playersList.length} / {submission.playersNumber}</p>
             <button onClick={() => handleDelete(index, submission.matchID)}>Delete</button>
           </div>
         )

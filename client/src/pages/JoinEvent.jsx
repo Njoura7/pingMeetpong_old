@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import axios from "axios"
 import Modal from "../components/Modal"
 import { useNavigate } from "react-router-dom"
+import UserContext from "../contexts/UserContext"
+
 const JoinEvent = () => {
+  const { loggedInUsername } = useContext(UserContext)
+
   const [matchID, setMatchID] = useState("")
-  const [username, setUsername] = useState("")
   //states for the modal
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalMessage, setModalMessage] = useState("")
@@ -14,7 +17,7 @@ const JoinEvent = () => {
 
     const matchData = {
       matchID,
-      username,
+      loggedInUsername
     }
     try {
       const response = await axios.post(
@@ -27,22 +30,21 @@ const JoinEvent = () => {
           },
         }
       )
+      
       //a page should replace the create event that have players list and the invite code which is the matchID ,
-      console.log("Match was found with Event Title : " + response.data)
-
-      setModalMessage("Match was found with Event Title: " + response.data)
+      setModalMessage(response.data)
       setIsModalOpen(true)
     } catch (error) {
-      console.log("No match was Found")
-
-      setModalMessage("No match was found")
+      setModalMessage(error)
       setIsModalOpen(true)
     }
   }
   const navigateHome=()=>{
     navigate('/');
   }
+  useEffect(()=>{
 
+  })
   const closeModal = () => {
     setIsModalOpen(false)
   }
@@ -56,15 +58,6 @@ const JoinEvent = () => {
             name='event-id'
             value={matchID}
             onChange={(e) => setMatchID(e.target.value)}
-          />
-        </label>
-        <label>
-          enter your username:
-          <input
-            type='text'
-            name='participant-username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
           />
         </label>
         <button type='submit'>Join</button>

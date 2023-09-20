@@ -115,6 +115,13 @@ form {
   visibility: visible; 
 }
 
+.radioButton{
+  margin-top: 10px;
+}
+
+label{
+  margin: 5px;
+}
 .results{
   padding: 10px;
   width: 100%;
@@ -146,7 +153,7 @@ form {
 }
 
 .match-card {
-  margin: 1rem 2rem;
+  margin: 5rem 2rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -181,6 +188,7 @@ form {
   text-align: center;
   position: relative;
   padding: 3rem;
+
 }
 
 /* Close button */

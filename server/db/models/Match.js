@@ -13,6 +13,7 @@ const matchSchema = mongoose.Schema({
   status: Boolean,
   location:String,
   date: Date,
+  playersNumber:Number,
   // considering using "timestamp" --not sure though
   time: String,
 })
