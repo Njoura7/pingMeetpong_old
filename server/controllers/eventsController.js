@@ -1,6 +1,7 @@
 import Match from "../db/models/Match.js"
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" // Define characters
 import mongoose from "mongoose"
+import Player from "../db/models/Player.js"
 
 //generate matchID
 async function generateMatchID() {
@@ -34,17 +35,24 @@ export const createEvent = async (req, res) => {
 
 export const joinEvent = async (req, res) => {
   const matchID = req.body.matchID
-  const username=req.body.username
+  const username=req.body.loggedInUsername
   try {
     const match = await Match.findOne({ matchID })
-
+    const user=await Player.findOne({username:username})
     if (!match) {
-      return res.status(404).json("Match Not Found !")
+      return res.status(200).json("Match Not Found !")
     }
+    if (user.matchJoined!="")
+    return res.status(200).json("You already have an ongoing game ! ")
     if (match.playersList.length==match.playersNumber)
     return res.status(200).json("Match is already full ! ")
+    if (match.hostUsername==username){
+      return res.status(200).json("You can't join your own match ? ")
+    }
     match.playersList.push(username)
-    await match.save()
+    user.matchJoined=matchID;
+    await user.save();
+    await match.save();
     res.status(200).json("Match Joined !")
   } catch (error) {
     console.error(error)
@@ -87,7 +95,18 @@ try{
 }catch(error){
   res.status(401).json({error:"Internal Server Error!"});
 }
-
-
 }
+
+export const getAllEvents=async(req,res)=>{
+
+  try{
+    const match = await Match.find();
+    if (!match){
+      return res.json("")
+    }
+    res.status(201).json(match);
+  }catch(error){
+    res.status(401).json({error:"Internal Server Error!"});
+  }
+  }
 

@@ -32,10 +32,14 @@ const userSchema = mongoose.Schema({
   
     //! match history = array of match score
     //? Future Plan, object {date , mode (1v1,2v2) , result(win or lose), score}
-    // matchHistory: {
-    //   type:String,
-    //   default
-    // }
+     matchHistory: {
+       matchTitle:String,
+       date:Date,
+       //1 for 1v1 , 2 for 2v2
+       gameMode:Number,
+       //1 for win 0 for lose
+       result:Number,
+     },
   availability: {
     type: Boolean,
     default: true,

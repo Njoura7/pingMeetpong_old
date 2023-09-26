@@ -4,10 +4,10 @@ const Home = () => {
   return (
     <>
       <Link to='/create-event'>
-        <button>Create event</button>
+        <button>Create/Manage Matches</button>
       </Link>
       <Link to='/join-event'>
-        <button>Join event</button>
+        <button>Join Match</button>
       </Link>
       <Link to='/search-player'>
         <button>Look for Player</button>

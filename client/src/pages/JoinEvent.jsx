@@ -42,9 +42,20 @@ const JoinEvent = () => {
   const navigateHome=()=>{
     navigate('/');
   }
-  useEffect(()=>{
 
-  })
+  //get all matches in the database to then make them appear as cards ! 
+  useEffect(()=>{
+    async function fetchData() {
+      try {
+        const response=await axios.get("http://localhost:8080/api/events/join-event")
+        console.log(response.data);
+      } catch (error) {
+       console.log(error);
+      }
+    }
+    fetchData();
+  },[])
+
   const closeModal = () => {
     setIsModalOpen(false)
   }

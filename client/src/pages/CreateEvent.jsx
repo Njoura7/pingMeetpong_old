@@ -196,6 +196,7 @@ setFormData({...formData,[e.target.name]:12})
             <p>MatchId: {submission.matchID}</p>
             <p>Players Number : {submission.playersList.length} / {submission.playersNumber}</p>
             <button onClick={() => handleDelete(index, submission.matchID)}>Delete</button>
+            <button onClick={()=>handleClick(index,submission.matchID)}>Submit Results</button>
           </div>
         )
       })
