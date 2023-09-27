@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import React,{useEffect, useState} from "react";
+import React,{useEffect, useState, useContext} from "react";
 import axios from "axios"
 import { useLocation } from "react-router-dom";
+import UserContext from "../contexts/UserContext"
 
 
     
@@ -13,6 +14,7 @@ function PlayerProfile() {
   const [availabality,setAvailablity]=useState(false);
   const [reviews,setReviews]=useState(["Bouheli","Dhab3i"]); 
   const [record,setRecord]=useState({Wins:0,Losses:0});
+  const { loggedInUsername } = useContext(UserContext)
 
  async function fetchUserData(){
   try {
@@ -28,6 +30,17 @@ function PlayerProfile() {
   } catch (error) {
    alert("errors fetching user data")
    return [];
+  }
+  }
+  
+const handleAdd=async (username)=>{
+  try{
+  const response=await axios.post(`http://localhost:8080/api/users/addFriend`,{
+    loggedinUsername:loggedInUsername,
+  friendToAdd:username})
+  console.log(response);
+  }catch(error){
+   console.log(error)
   }
   }
   useEffect(()=>{
@@ -67,7 +80,8 @@ function PlayerProfile() {
     </div>)}
       <h2>Availabality : </h2>
         <p>{availabality.toString()}</p>
-
+       {/* needs to be wrapped in an arrow function so that it is only invoked whne cliccked , otherwise it will be invoked handleAdd(username) immediately when rendering the component */}
+      <button onClick={()=>handleAdd(username)}>Add Friend</button>
       </div>
     </div>
     </>
