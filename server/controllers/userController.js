@@ -19,7 +19,8 @@ const user=await Player.findOne({username:username})
 const profileData={
     reviews:user.reviews,
     availability:user.availability,
-    record:user.record
+    record:user.record,
+    friendsList:user.friendsList
 }
 res.json(profileData);
 

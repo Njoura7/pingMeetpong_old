@@ -15,10 +15,13 @@ function PlayerProfile() {
   const [reviews,setReviews]=useState(["Bouheli","Dhab3i"]); 
   const [record,setRecord]=useState({Wins:0,Losses:0});
   const { loggedInUsername } = useContext(UserContext)
+  const [loading,setLoading]=useState(true)
+  //useContext(UserContext) returns an object, and by using destructuring, you can extract the loggedInUsername property from that object directly.
+  const [alreadyFriends,setAlreadyFriends]=useState(false);
 
- async function fetchUserData(){
+ async function fetchUserData(value){
   try {
-    const response=await axios.get(`http://localhost:8080/api/users/profile?id=${username}`)
+    const response=await axios.get(`http://localhost:8080/api/users/profile?id=${value}`)
     JSON.stringify(response),
         {
           headers: {
@@ -38,17 +41,24 @@ const handleAdd=async (username)=>{
   const response=await axios.post(`http://localhost:8080/api/users/addFriend`,{
     loggedinUsername:loggedInUsername,
   friendToAdd:username})
-  console.log(response);
-  }catch(error){
+setAlreadyFriends(true);
+}catch(error){
    console.log(error)
   }
   }
+
+const handleMessage=()=>{
+  console.log("9ob9aba9eb")
+}
+
   useEffect(()=>{
     async function fetchData(){
-      const userData=await fetchUserData();
-    setReviews(userData.reviews);
-    setAvailablity(userData.availability);
-    setRecord(userData.record);
+      const userData=await fetchUserData(username)
+    setReviews(userData.reviews)
+    setAvailablity(userData.availability)
+    setRecord(userData.record)
+    setAlreadyFriends(userData.friendsList.includes(loggedInUsername))
+    setLoading(false)
   }
   fetchData();
 },[])
@@ -56,6 +66,9 @@ const handleAdd=async (username)=>{
     //set username basedo n the clicked link ? 
     return (
     <>
+    {(loading)?(
+      <div>Loading...</div>
+    ):(
     <div>
       <h2>{username}</h2>
       <div className='avatar'>
@@ -81,9 +94,15 @@ const handleAdd=async (username)=>{
       <h2>Availabality : </h2>
         <p>{availabality.toString()}</p>
        {/* needs to be wrapped in an arrow function so that it is only invoked whne cliccked , otherwise it will be invoked handleAdd(username) immediately when rendering the component */}
+      {(! alreadyFriends) ? (
       <button onClick={()=>handleAdd(username)}>Add Friend</button>
+      ):(
+      <button onClick={()=>handleMessage(username)}>Send Message</button>
+      )    
+    }
       </div>
     </div>
+    )}
     </>
   )
 }
